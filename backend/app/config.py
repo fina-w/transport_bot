@@ -5,6 +5,7 @@ from urllib.parse import unquote, urlparse
 from dotenv import load_dotenv
 
 load_dotenv()
+#that's it
 
 
 def _parse_mysql_url(url: str) -> dict[str, str | int]:
@@ -50,11 +51,12 @@ class Settings:
             self.mysql_password = str(parsed["password"])
             self.mysql_database = str(parsed["database"])
         else:
-            self.mysql_host = os.getenv("MYSQL_HOST", "127.0.0.1")
-            self.mysql_port = int(os.getenv("MYSQL_PORT", "3306"))
-            self.mysql_user = os.getenv("MYSQL_USER", "root")
-            self.mysql_password = os.getenv("MYSQL_PASSWORD", "")
-            self.mysql_database = os.getenv("MYSQL_DATABASE", "transport_demo")
+            # On cherche d'abord la variable Railway, sinon la variable locale, sinon 127.0.0.1
+            self.mysql_host = os.getenv("MYSQLHOST") or os.getenv("MYSQL_HOST", "127.0.0.1")
+            self.mysql_port = int(os.getenv("MYSQLPORT") or os.getenv("MYSQL_PORT", "3306"))
+            self.mysql_user = os.getenv("MYSQLUSER") or os.getenv("MYSQL_USER", "root")
+            self.mysql_password = os.getenv("MYSQLPASSWORD") or os.getenv("MYSQL_PASSWORD", "")
+            self.mysql_database = os.getenv("MYSQLDATABASE") or os.getenv("MYSQL_DATABASE", "transport_demo")
 
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         self.openai_model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
