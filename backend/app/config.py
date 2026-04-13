@@ -60,8 +60,8 @@ class Settings:
 
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         self.openai_model = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-        self.ollama_base_url = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
-        self.ollama_model = os.getenv("OLLAMA_MODEL", "llama3.2")
+        #self.ollama_base_url = os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434")
+        #self.ollama_model = os.getenv("OLLAMA_MODEL", "llama3.2")
 
         self.cors_origins = os.getenv("CORS_ORIGINS", "*")
 
