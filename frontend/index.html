@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transport — Données &amp; assistant</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="fileOpenWarning" class="file-warning" hidden>
+      Ouvrez l’app via le serveur : dans un terminal, <code>cd backend</code> puis
+      <code>uvicorn app.main:app --host 127.0.0.1 --port 8000</code>, puis allez sur
+      <strong>http://127.0.0.1:8000</strong> (sinon les tableaux et l’assistant ne peuvent pas charger les données).
+    </div>
+    <div class="layout">
+      <header class="header">
+        <div class="brand">
+          <span class="logo" aria-hidden="true">◆</span>
+          <div>
+            <h1>Transport</h1>
+            <p class="tagline">Véhicules, chauffeurs, trajets et incidents</p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Changer le thème" aria-pressed="false">
+            <span class="theme-toggle-slider">🌙</span>
+          </button>
+          <p class="env-hint" id="apiStatus">API…</p>
+        </div>
+      </header>
+
+      <nav class="tabs" role="tablist" aria-label="Sections">
+        <button type="button" class="tab active" data-tab="dashboard" role="tab" aria-selected="true">
+          📊 Tableau de bord
+        </button>
+        <button type="button" class="tab" data-tab="vehicules" role="tab" aria-selected="false">
+          🚌 Véhicules
+        </button>
+        <button type="button" class="tab" data-tab="chauffeurs" role="tab" aria-selected="false">
+          👤 Chauffeurs
+        </button>
+        <button type="button" class="tab" data-tab="lignes" role="tab" aria-selected="false">
+          🗺️ Lignes
+        </button>
+        <button type="button" class="tab" data-tab="trajets" role="tab" aria-selected="false">
+          🚦 Trajets
+        </button>
+        <button type="button" class="tab" data-tab="tarifs" role="tab" aria-selected="false">
+          💰 Tarifs
+        </button>
+        <button type="button" class="tab" data-tab="incidents" role="tab" aria-selected="false">
+          ⚠️ Incidents
+        </button>
+        <button type="button" class="tab tab-special" data-tab="chat" role="tab" aria-selected="false">
+          🤖 Assistant IA
+        </button>
+      </nav>
+
+      <main class="main">
+        <section id="panel-dashboard" class="panel active" role="tabpanel">
+          <h2>Tableau de bord</h2>
+          <div class="dashboard-grid" id="dashboard-content">
+            <div class="loading">Chargement des statistiques...</div>
+          </div>
+        </section>
+        <section id="panel-vehicules" class="panel" role="tabpanel" hidden>
+          <h2>Véhicules</h2>
+          <div class="table-wrap" id="table-vehicules"></div>
+        </section>
+        <section id="panel-chauffeurs" class="panel" role="tabpanel" hidden>
+          <h2>Chauffeurs</h2>
+          <div class="table-wrap" id="table-chauffeurs"></div>
+        </section>
+        <section id="panel-lignes" class="panel" role="tabpanel" hidden>
+          <h2>Lignes de transport</h2>
+          <div class="table-wrap" id="table-lignes"></div>
+        </section>
+        <section id="panel-trajets" class="panel" role="tabpanel" hidden>
+          <h2>Trajets</h2>
+          <div class="table-wrap" id="table-trajets"></div>
+        </section>
+        <section id="panel-tarifs" class="panel" role="tabpanel" hidden>
+          <h2>Tarifs</h2>
+          <div class="table-wrap" id="table-tarifs"></div>
+        </section>
+        <section id="panel-incidents" class="panel" role="tabpanel" hidden>
+          <h2>Incidents</h2>
+          <div class="table-wrap" id="table-incidents"></div>
+        </section>
+        <section id="panel-chat" class="panel chat-panel" role="tabpanel" hidden>
+          <h2>🤖 Assistant IA - Posez vos questions</h2>
+          <p class="help">
+            💡 Exemples : « Liste les bus en maintenance », « Quels chauffeurs sont en route ? », « Trajets de Dakar vers Thiès », « Combien de trajets cette semaine ? »
+          </p>
+          <form id="chatForm" class="chat-form">
+            <label class="sr-only" for="chatInput">Votre question</label>
+            <textarea
+              id="chatInput"
+              rows="3"
+              placeholder="Décrivez ce que vous voulez savoir…"
+              required
+            ></textarea>
+            <button type="submit" class="btn primary" id="chatSubmit">Envoyer</button>
+          </form>
+          <div id="chatError" class="error" hidden></div>
+          <article id="chatAnswer" class="chat-answer" hidden></article>
+          <div class="table-wrap chat-results" id="chatTableWrap" hidden>
+            <h3 class="subhead" id="chatResultTitle">Résultats</h3>
+            <div id="chatTable"></div>
+          </div>
+          <details class="sql-details">
+            <summary>SQL généré</summary>
+            <pre id="chatSql"></pre>
+          </details>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>SELECT uniquement · MySQL · OpenAI ou Ollama</span>
+      </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

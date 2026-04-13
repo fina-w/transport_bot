@@ -1,0 +1,12 @@
+# Déploiement Railway : connecter le dépôt Git, laisser la détection Dockerfile
+# ou définir manuellement le builder « Dockerfile » à la racine du projet.
+# Variables à renseigner dans Railway : voir backend/.env.example
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/api/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
