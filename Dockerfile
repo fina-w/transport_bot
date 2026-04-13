@@ -8,10 +8,13 @@ ENV PYTHONUNBUFFERED=1
 COPY backend/requirements.txt /app/backend/requirements.txt
 RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
 COPY backend /app/backend
 COPY frontend /app/frontend
 
 WORKDIR /app/backend
 
 EXPOSE 8000
-CMD ["sh", "-c", "exec uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+ENTRYPOINT ["/docker-entrypoint.sh"]

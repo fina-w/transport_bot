@@ -1,6 +1,6 @@
-# Déploiement Railway : connecter le dépôt Git, laisser la détection Dockerfile
-# ou définir manuellement le builder « Dockerfile » à la racine du projet.
-# Variables à renseigner dans Railway : voir backend/.env.example
+# Déploiement Railway : Dockerfile + docker-entrypoint.sh (PORT lu correctement).
+# Dans Settings → Deploy : laisser « Custom Start Command » VIDE (sinon erreur --port '$PORT').
+# Variables : voir backend/.env.example (MYSQL_URL vers le service MySQL).
 
 [build]
 builder = "DOCKERFILE"
