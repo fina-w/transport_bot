@@ -84,6 +84,37 @@ def _extract_json_object(text: str) -> dict:
 
 async def generate_sql_and_answer(user_question: str) -> tuple[str, str]:
     s = get_settings()
+    
+    if not s.openai_api_key:
+        raise RuntimeError("La clé OPENAI_API_KEY est manquante dans les variables d'environnement Railway.")
+
+    user_content = f"Question utilisateur : {user_question.strip()}"
+
+    # Configuration pour Groq via le SDK OpenAI
+    client = OpenAI(
+        api_key=s.openai_api_key,
+        base_url="https://api.groq.com/openai/v1"
+    )
+
+    resp = client.chat.completions.create(
+        model=s.openai_model,
+        messages=[
+            {"role": "system", "content": SCHEMA_PROMPT.strip()},
+            {"role": "user", "content": user_content},
+        ],
+        temperature=0.1,
+    )
+    
+    raw = resp.choices[0].message.content or ""
+    parsed = _extract_json_object(raw)
+    
+    sql = str(parsed.get("sql", "")).strip()
+    answer = str(parsed.get("answer", "")).strip()
+    
+    if not sql:
+        raise ValueError("Le modèle n'a pas renvoyé de champ sql valide.")
+        
+    return sql, answer or "Voici les résultats."    s = get_settings()
     user_content = f"Question utilisateur : {user_question.strip()}"
 
     if s.openai_api_key:
