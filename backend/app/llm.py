@@ -90,7 +90,7 @@ async def generate_sql_and_answer(user_question: str) -> tuple[str, str]:
         client = OpenAI(api_key=s.openai_api_key,
         base_url="https://api.groq.com/openai/v1")
         resp = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": SCHEMA_PROMPT.strip()},
                 {"role": "user", "content": user_content},
